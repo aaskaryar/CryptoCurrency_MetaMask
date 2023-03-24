@@ -10,91 +10,23 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
   <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
-  <style>
-  body {
-    background-image: url('https://wallpapers.com/images/featured/3jjpqftwixza1iac.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-    .backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1;
-}
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f1f1;
-      margin: 0;
-      padding: 0;
-    }
-
-    #txStatus {
-      padding: 20px;
-      font-size: 18px;
-      color: #333;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
-    }
-
-    #zombies {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      padding: 20px;
-    }
-
-    .zombie {
-      width: 30%;
-      margin-bottom: auto;
-      padding: 10px;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0px 0px 5px #ccc;
-    }
-
-    .zombie ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .zombie li {
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      font-size: 18px;
-      padding: 10px 20px;
-      margin: 10px;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #3e8e41;
-    }
-  </style>
 </head>
 
 <body>
   <div id="txStatus"></div>
   <div id="zombies"></div>
-  <div class="button" style="display: block; margin-bottom: 0; margin-right: 10px;">
-  <div style="display: flex; justify-content: center; align-items: center; padding-top: 10px;">
+
   <button class="showZombieButton">Show Zombies</button>
   <button class="createzombieButton">Create Zombie</button>
   <button class="levelupButton">Level Up</button>
-  <button class="feedOnKittyButton">Feed on Kitty</button>
-</div>
-</div>
+  <input type="text" id="namechangeinput" placeholder="Change Zombie Name">
+  <button class="changeNameButton">Change Name</button>
+  <input type="text" id="dnachangeinput" placeholder="Change Zombie DNA">
+  <button class="changeDnaButton">Change Dna</button>
+  <button class="ownerInfoButton">Owner Info</button>
+  <button class="balanceInfoButton">Balance Info</button>
+
+
   <script>
 
     var cryptoZombies;
@@ -102,11 +34,16 @@
     const showZombieButton = document.querySelector('.showZombieButton');
     const createzombieButton = document.querySelector('.createzombieButton');
     const levelupButton = document.querySelector('.levelupButton');
+    const changeNameButton = document.querySelector('.changeNameButton');
+    const changeDnaButton = document.querySelector('.chnageDnaButton');
+    const ownerInfoButton = document.querySelector('.ownerInfoButton');
+    const balanceInfoButton = document.querySelector('.balanceInfoButton');
 
     function startApp() {
 	
       //ZombieOwnership contratc address
-      var cryptoZombiesAddress = "0xAb6A196cb9308469B636afbD7046896A91cFD8c2";
+      //var cryptoZombiesAddress = "0xC08d276D3022F1E9E1e99eBAa6410fE4FcbEcB8f";
+      var cryptoZombiesAddress = "0x64477AC14EA5DcAcd091ec9b0F65bD234E9dEF85";
 
       cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
 
@@ -132,7 +69,7 @@
     function displayZombies(ids) {
       $("#zombies").empty();
       for (id of ids) {
-
+        console.log(id)
         getZombieDetails(id)
           .then(function (zombie) {
 
@@ -160,7 +97,7 @@
       return cryptoZombies.methods.createRandomZombie(name)
         .send({ from: userAccount })
         .on("receipt", function (receipt) {
-          $("#txStatus").text("Successfully created " + name + "!");
+          $("#txStatus").text("Successfully created " + userAccount + "!");
 
           getZombiesByOwner(userAccount).then(displayZombies);
         })
@@ -193,6 +130,49 @@
         .on("error", function (error) {
           $("#txStatus").text(error);
         });
+    }
+    function changeName(zombieId, newName){
+      $("#txStatus").text("Changing name, please wait....");
+      return cryptoZombies.methods.changeName(zombieId,newName)
+        .send({from: userAccount})
+        .on("receipt", function (receipt) {
+          $("#txStatus").text("Name of the Zombie was changed sucessfully!!");
+          $("#zombies").empty();
+          getZombiesByOwner(userAccount).then(displayZombies);
+        })
+        .on("error", function (error) {
+          $("#txStatus").text(error);
+          $("#zombies").empty();
+          getZombiesByOwner(userAccount).then(displayZombies);
+        });
+    }
+
+    function changeDna(zombieId, newDna){
+      $("#txStatus").text("Changing DNA, please wait....");
+      return cryptoZombies.methods.changeDna(zombieId,newDna)
+        .send({from: userAccount})
+        .on("receipt", function (receipt) {
+          $("#txStatus").text("DNA of the Zombie was changed sucessfully!!");
+          $("#zombies").empty();
+          getZombiesByOwner(userAccount).then(displayZombies);
+        })
+        .on("error", function (error) {
+          $("#txStatus").text(error);
+          $("#zombies").empty();
+          getZombiesByOwner(userAccount).then(displayZombies);
+        });
+    }
+
+    async function ownerOf(zombieId){
+      $("#txStatus").text("Finding Owner of the ZOMBIESSS...");
+      var ownerOfZombies = await cryptoZombies.methods.ownerOf(zombieId).call();
+      $("#txStatus").text("Owner of the Zombies is: " + ownerOfZombies);
+    }
+
+    async function balanceOf(address){
+      $("#txStatus").text("Balance of the Owner Loading...");
+      var balanceOfOwner = await cryptoZombies.methods.balanceOf(address).call();
+      $("#txStatus").text("Balance of the Owner is: " + balanceOfOwner + " Token");
     }
 
     function getZombieDetails(id) {
@@ -274,7 +254,18 @@
             .then(levelUp);
 
     });
-
+    ownerInfoButton.addEventListener('click', ()=>{
+      ownerOf(userAccount);
+    });
+    balanceInfoButton.addEventListener('click',()=>{
+      balanceOf(userAccount);
+    });
+    changeNameButton.addEventListener('click', ()=>{
+      changeName(userAccount,$("#namechangeinput").val());
+    });
+    changeDnaButton.addEventListener('click', ()=>{
+      changeDna(userAccount,$("#dnachangeinput").val());
+    });
 
 
   </script>

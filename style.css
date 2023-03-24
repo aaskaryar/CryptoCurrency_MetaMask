@@ -1,0 +1,80 @@
+body {
+  background-image: url('https://wallpapers.com/images/featured/3jjpqftwixza1iac.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+@font-face {
+  font-family: 'youmurdererbb_reg';
+  src: url('./youmurdererbb_reg.ttf');
+}
+
+body {
+  font: inherit;
+  font-family: 'youmurdererbb_reg';
+  background-color: #801717;
+  margin: 0;
+  padding: 0;
+}
+
+#txStatus {
+  padding: 20px;
+  font-size: 18px;
+  color: #333;
+  background-color: #801717;
+  border-bottom: 1px solid #ddd;
+}
+
+#zombies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.zombie {
+  width: 30%;
+  margin: auto;
+  padding: 10px;
+  background-color: #801717;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #ccc;
+}
+
+
+.zombie ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+}
+
+.zombie li {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+button {
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #801717;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #801717;
+}

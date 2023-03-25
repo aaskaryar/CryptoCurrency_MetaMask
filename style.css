@@ -1,3 +1,4 @@
+
 body {
   background-image: url('https://wallpapers.com/images/featured/3jjpqftwixza1iac.jpg');
   background-repeat: no-repeat;
@@ -14,25 +15,23 @@ body {
   z-index: 1;
 }
 
-@font-face {
-  font-family: 'youmurdererbb_reg';
-  src: url('./youmurdererbb_reg.ttf');
-}
+
 
 body {
-  font: inherit;
-  font-family: 'youmurdererbb_reg';
+  font-family: 'Creepster', cursive;
+  color: #fff;
   background-color: #801717;
   margin: 0;
   padding: 0;
 }
 
 #txStatus {
+  font: inherit;
   padding: 20px;
   font-size: 18px;
-  color: #333;
+  color: #ffffff;
   background-color: #801717;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #801717;
 }
 
 #zombies {
@@ -76,5 +75,5 @@ button {
 }
 
 button:hover {
-  background-color: #801717;
+  background-color: #a26d6d;
 }

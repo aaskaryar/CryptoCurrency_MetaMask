@@ -5,28 +5,42 @@
 <head>
   <meta charset="UTF-8">
   <title>CryptoZombies front-end</title>
-<link rel="icon" href="favicon.ico">
+  <link rel="icon" href="favicon.ico">
   <script language="javascript" type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
   <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&displays=swap');
+  </style>
 </head>
 
 <body>
-  <div id="txStatus"></div>
+    <link rel="stylesheet" href="./style.css">
+  <div id="txStatus">Welcome to Cryptozombies!</div>
   <div id="zombies"></div>
-
-  <button class="showZombieButton">Show Zombies</button>
-  <button class="createzombieButton">Create Zombie</button>
-  <button class="levelupButton">Level Up</button>
-  <input type="text" id="namechangeinput" placeholder="Change Zombie Name">
-  <button class="changeNameButton">Change Name</button>
-  <input type="text" id="dnachangeinput" placeholder="Change Zombie DNA">
-  <button class="changeDnaButton">Change Dna</button>
-  <button class="ownerInfoButton">Owner Info</button>
-  <button class="balanceInfoButton">Balance Info</button>
-
-
+  <div class="button" style="display: block; margin-bottom: 0; margin-right: 10px;">
+    <div style="display: flex; justify-content: center; align-items: center; padding-top: 10px;">
+      <button class="showZombieButton">Show Zombies</button>
+      <button class="createzombieButton">Create Zombie</button>
+      <button class="levelupButton">Level Up</button>
+      <button class="ownerInfoButton">Owner Info</button>
+      <button class="balanceInfoButton">Balance Info</button>
+    </div>
+  </div>
+ <!--<div class="button" style="display: block; margin-bottom: 0; margin-right: 10px;">
+    <div style="display: flex; justify-content: center; align-items: center; padding-top: 10px;">
+      <input type="text" id="namechangeinput" placeholder="Enter New Name">
+      <input type="text" id="dnachangeinput" placeholder="Enter 16-Digit Number">
+    </div>
+  </div> 
+  <div class="button" style="display: block; margin-bottom: 0; margin-right: 10px;">
+    <div style="display: flex; justify-content: center; align-items: center; padding-top: 10px;">
+      <button class="changeNameButton">Change Name</button>
+      <button class="changeDnaButton">Change Dna</button>
+    </div>
+  </div>-->
+  
   <script>
 
     var cryptoZombies;
@@ -43,7 +57,7 @@
 	
       //ZombieOwnership contratc address
       //var cryptoZombiesAddress = "0xC08d276D3022F1E9E1e99eBAa6410fE4FcbEcB8f";
-      var cryptoZombiesAddress = "0x64477AC14EA5DcAcd091ec9b0F65bD234E9dEF85";
+      var cryptoZombiesAddress = "0x49010833B6430bb43De7Cfd03FC4CBb21FaF339B";
 
       cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
 
@@ -103,7 +117,7 @@
         })
         .on("error", function (error) {
 
-          $("#txStatus").text(error);
+          $("#txStatus").text("Transaction Failed");
         });
     }
 
@@ -128,7 +142,7 @@
           $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
         })
         .on("error", function (error) {
-          $("#txStatus").text(error);
+          $("#txStatus").text("Level Up Failed");
         });
     }
     function changeName(zombieId, newName){
